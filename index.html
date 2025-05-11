@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receets Mobile App</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        
+        .phone-container {
+            max-width: 375px;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 30px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            position: relative;
+            height: 700px;
+        }
+        
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            display: none;
+            overflow-y: auto;
+        }
+        
+        .screen.active {
+            display: block;
+        }
+        
+        /* Login Screen */
+        .login-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding-top: 80px;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            background-color: #4A6FFF;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .app-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .app-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .form-group {
+            width: 100%;
+            margin-bottom: 16px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #4A6FFF;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        /* Home Screen */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .greeting {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .avatar {
+            width: 40px;
+            height: 40px;
+            background-color: #4A6FFF;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .scan-card {
+            background-color: #4A6FFF;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+        
+        .scan-icon {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+        
+        .scan-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .scan-subtitle {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+        
+        .receipt-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .receipt-item:last-child {
+            border-bottom: none;
+        }
+        
+        .receipt-left {
+            display: flex;
+        }
+        
+        .receipt-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #f0f4ff;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: #4A6FFF;
+            font-size: 18px;
+        }
+        
+        .receipt-return {
+            background-color: #fff0f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-container">
+        <!-- Login Screen -->
+        <div class="screen login-screen active" id="loginScreen">
+            <div class="logo">R</div>
+            <h1 class="app-title">Receets</h1>
+            <p class="app-subtitle">Your mobile receipt management system</p>
+            
+            <form>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" placeholder="Enter your email" />
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" placeholder="Enter your password" />
+                </div>
+                <button class="btn" type="submit">Login</button>
+            </form>
+        </div>
+        
+        <!-- Home Screen -->
+        <div class="screen" id="homeScreen">
+            <div class="header">
+                <h2 class="greeting">Welcome back!</h2>
+                <div class="avatar">A</div>
+            </div>
+            
+            <div class="scan-card">
+                <div class="scan-icon">🔍</div>
+                <div class="scan-title">Scan QR Code</div>
+                <div class="scan-subtitle">Scan a merchant's QR code to start</div>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Recent Activity</div>
+                <div class="receipt-item">
+                    <div class="receipt-left">
+                        <div class="receipt-icon">🛒</div>
+                        <div>
+                            <div class="receipt-title">Coffee Shop</div>
+                            <div class="receipt-date">Today, 14:30</div>
+                        </div>
+                    </div>
+                    <div class="receipt-amount">$15.99</div>
+                </div>
+                <div class="receipt-item">
+                    <div class="receipt-left">
+                        <div class="receipt-icon">🛍️</div>
+                        <div>
+                            <div class="receipt-title">Fashion Store</div>
+                            <div class="receipt-date">Yesterday, 16:45</div>
+                        </div>
+                    </div>
+                    <div class="receipt-amount">$49.99</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
