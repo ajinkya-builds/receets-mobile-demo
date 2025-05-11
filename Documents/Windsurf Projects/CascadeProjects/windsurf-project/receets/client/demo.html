@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Receets Mobile App</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f5f5f5;
+    }
+    
+    .phone-container {
+      max-width: 375px;
+      margin: 20px auto;
+      background-color: white;
+      border-radius: 30px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      position: relative;
+      height: 700px;
+    }
+    
+    .screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 20px;
+      box-sizing: border-box;
+      display: none;
+      overflow-y: auto;
+    }
+    
+    .screen.active {
+      display: block;
+    }
+    
+    /* Login Screen */
+    .login-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding-top: 80px;
+    }
+    
+    .logo {
+      width: 80px;
+      height: 80px;
+      background-color: #4A6FFF;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    
+    .app-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+    
+    .app-subtitle {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    
+    .form-group {
+      width: 100%;
+      margin-bottom: 16px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    
+    .btn {
+      width: 100%;
+      padding: 14px;
+      background-color: #4A6FFF;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    
+    /* Home Screen */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .greeting {
+      font-size: 24px;
+      font-weight: bold;
+    }
+    
+    .avatar {
+      width: 40px;
+      height: 40px;
+      background-color: #4A6FFF;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+    }
+    
+    .card {
+      background-color: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .scan-card {
+      background-color: #4A6FFF;
+      color: white;
+      text-align: center;
+      padding: 30px 20px;
+    }
+    
+    .scan-icon {
+      font-size: 36px;
+      margin-bottom: 12px;
+    }
+    
+    .scan-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+    
+    .scan-subtitle {
+      font-size: 14px;
+      opacity: 0.8;
+    }
+    
+    .card-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 16px;
+    }
+    
+    .receipt-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .receipt-item:last-child {
+      border-bottom: none;
+    }
+    
+    .receipt-left {
+      display: flex;
+    }
+    
+    .receipt-icon {
+      width: 40px;
+      height: 40px;
+      background-color: #f0f4ff;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 12px;
+      color: #4A6FFF;
+      font-size: 18px;
+    }
+    
+    .receipt-return {
+      background-color: #fff0f0;
+      color: #FF6B6B;
+    }
+    
+    .receipt-details h4 {
+      margin: 0;
+      margin-bottom: 4px;
+      font-size: 16px;
+    }
+    
+    .receipt-details p {
+      margin: 0;
+      color: #666;
+      font-size: 14px;
+    }
+    
+    .receipt-amount {
+      font-weight: bold;
+    }
+    
+    .view-all {
+      text-align: center;
+      margin-top: 12px;
+    }
+    
+    a {
+      color: #4A6FFF;
+      text-decoration: none;
+    }
+    
+    /* Bottom Navigation */
+    .bottom-nav {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: white;
+      display: flex;
+      justify-content: space-around;
+      padding: 12px 0;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 12px;
+      color: #666;
+    }
+    
+    .nav-icon {
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+    
+    .nav-item.active {
+      color: #4A6FFF;
+    }
+    
+    /* Scanner Screen */
+    .scanner-screen {
+      background-color: #000;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .scanner-header {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 10;
+    }
+    
+    .back-button {
+      width: 40px;
+      height: 40px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+    
+    .scanner-overlay {
+      width: 250px;
+      height: 250px;
+      border: 2px solid #4A6FFF;
+      border-radius: 20px;
+      position: relative;
+    }
+    
+    .scanner-corner {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-color: #4A6FFF;
+      border-style: solid;
+      border-width: 0;
+    }
+    
+    .top-left {
+      top: -2px;
+      left: -2px;
+      border-top-width: 4px;
+      border-left-width: 4px;
+      border-top-left-radius: 10px;
+    }
+    
+    .top-right {
+      top: -2px;
+      right: -2px;
+      border-top-width: 4px;
+      border-right-width: 4px;
+      border-top-right-radius: 10px;
+    }
+    
+    .bottom-left {
+      bottom: -2px;
+      left: -2px;
+      border-bottom-width: 4px;
+      border-left-width: 4px;
+      border-bottom-left-radius: 10px;
+    }
+    
+    .bottom-right {
+      bottom: -2px;
+      right: -2px;
+      border-bottom-width: 4px;
+      border-right-width: 4px;
+      border-bottom-right-radius: 10px;
+    }
+    
+    .scanner-instructions {
+      position: absolute;
+      bottom: 100px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: white;
+      padding: 20px;
+    }
+    
+    .scanner-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    
+    .scanner-subtitle {
+      font-size: 14px;
+      opacity: 0.8;
+    }
+    
+    /* Receipts Screen */
+    .search-bar {
+      display: flex;
+      background-color: #f0f0f0;
+      border-radius: 8px;
+      padding: 10px 15px;
+      margin-bottom: 16px;
+      align-items: center;
+    }
+    
+    .search-icon {
+      margin-right: 10px;
+      color: #666;
+    }
+    
+    .search-input {
+      border: none;
+      background: transparent;
+      flex-grow: 1;
+      font-size: 16px;
+    }
+    
+    .filter-chips {
+      display: flex;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      margin-bottom: 16px;
+    }
+    
+    .chip {
+      padding: 8px 15px;
+      background-color: #f0f0f0;
+      border-radius: 20px;
+      margin-right: 10px;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+    
+    .chip.active {
+      background-color: #4A6FFF;
+      color: white;
+    }
+    
+    /* Sale Details */
+    .back-link {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+    
+    .back-icon {
+      margin-right: 10px;
+    }
+    
+    .merchant-logo {
+      width: 60px;
+      height: 60px;
+      background-color: #f0f0f0;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+    
+    .merchant-name {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+    
+    .sale-date {
+      color: #666;
+      margin-bottom: 16px;
+    }
+    
+    .sale-status {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 20px;
+    }
+    
+    .status-completed {
+      background-color: #e8f5e9;
+      color: #4CAF50;
+    }
+    
+    .divider {
+      height: 1px;
+      background-color: #eee;
+      margin: 20px 0;
+    }
+    
+    .section-title {
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 16px;
+      color: #666;
+    }
+    
+    .item-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    
+    .item-name {
+      flex-grow: 1;
+    }
+    
+    .item-quantity {
+      color: #666;
+      margin-right: 16px;
+      min-width: 30px;
+    }
+    
+    .item-price {
+      font-weight: 500;
+      min-width: 60px;
+      text-align: right;
+    }
+    
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      font-weight: bold;
+      margin-top: 16px;
+    }
+    
+    .payment-method {
+      display: flex;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    
+    .payment-icon {
+      width: 40px;
+      height: 40px;
+      background-color: #f0f4ff;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 16px;
+      color: #4A6FFF;
+      font-size: 20px;
+    }
+    
+    .payment-details {
+      flex-grow: 1;
+    }
+    
+    .payment-name {
+      font-weight: 500;
+    }
+    
+    .payment-info {
+      font-size: 14px;
+      color: #666;
+    }
+    
+    .action-button {
+      background-color: #f0f0f0;
+      color: #333;
+      border: none;
+      border-radius: 8px;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: 500;
+      width: 100%;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    
+    .instructions {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: #4A6FFF;
+      color: white;
+      padding: 10px;
+      text-align: center;
+      font-weight: bold;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+  <div class="instructions">
+    Click the buttons to navigate between screens
+  </div>
+  
+  <div class="phone-container">
+    <!-- Login Screen -->
+    <div class="screen login-screen active" id="loginScreen">
+      <div class="logo">R</div>
+      <h1 class="app-title">Receets</h1>
+      <p class="app-subtitle">Your digital receipts in one place</p>
+      
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Enter your email">
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter your password">
+      </div>
+      
+      <button class="btn" id="loginButton">Sign In</button>
+      
+      <div class="links">
+        <a href="#">Forgot Password?</a>
+        <a href="#">Sign Up</a>
+      </div>
+    </div>
+    
+    <!-- Home Screen -->
+    <div class="screen" id="homeScreen">
+      <div class="header">
+        <h2 class="greeting">Hello, John</h2>
+        <div class="avatar">J</div>
+      </div>
+      
+      <div class="card scan-card" id="scanCardButton">
+        <div class="scan-icon">📱</div>
+        <div class="scan-title">Scan QR Code</div>
+        <div class="scan-subtitle">Scan merchant QR code to start a transaction</div>
+      </div>
+      
+      <div class="card">
+        <div class="card-title">Recent Receipts</div>
+        
+        <div class="receipt-item" id="receiptItemButton">
+          <div class="receipt-left">
+            <div class="receipt-icon">🛒</div>
+            <div class="receipt-details">
+              <h4>Walmart</h4>
+              <p>May 10, 2025</p>
+            </div>
+          </div>
+          <div class="receipt-amount">$125.50</div>
+        </div>
+        
+        <div class="receipt-item">
+          <div class="receipt-left">
+            <div class="receipt-icon">🛒</div>
+            <div class="receipt-details">
+              <h4>Target</h4>
+              <p>May 8, 2025</p>
+            </div>
+          </div>
+          <div class="receipt-amount">$78.25</div>
+        </div>
+        
+        <div class="receipt-item">
+          <div class="receipt-left">
+            <div class="receipt-icon receipt-return">↩️</div>
+            <div class="receipt-details">
+              <h4>Best Buy</h4>
+              <p>May 5, 2025</p>
+            </div>
+          </div>
+          <div class="receipt-amount" style="color: #FF6B6B">-$45.99</div>
+        </div>
+        
+        <div class="view-all">
+          <a href="#" id="viewAllReceiptsButton">View All Receipts</a>
+        </div>
+      </div>
+      
+      <div class="bottom-nav">
+        <div class="nav-item active" id="navHomeButton">
+          <div class="nav-icon">🏠</div>
+          <div>Home</div>
+        </div>
+        <div class="nav-item" id="navScanButton">
+          <div class="nav-icon">📱</div>
+          <div>Scan</div>
+        </div>
+        <div class="nav-item" id="navReceiptsButton">
+          <div class="nav-icon">🧾</div>
+          <div>Receipts</div>
+        </div>
+        <div class="nav-item">
+          <div class="nav-icon">👤</div>
+          <div>Profile</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Scanner Screen -->
+    <div class="screen scanner-screen" id="scannerScreen">
+      <div class="scanner-header">
+        <div class="back-button" id="scannerBackButton">←</div>
+      </div>
+      
+      <div class="scanner-overlay">
+        <div class="scanner-corner top-left"></div>
+        <div class="scanner-corner top-right"></div>
+        <div class="scanner-corner bottom-left"></div>
+        <div class="scanner-corner bottom-right"></div>
+      </div>
+      
+      <div class="scanner-instructions">
+        <div class="scanner-title">Scan Merchant QR Code</div>
+        <div class="scanner-subtitle">Position the QR code within the frame</div>
+      </div>
+    </div>
+    
+    <!-- Receipts Screen -->
+    <div class="screen" id="receiptsScreen">
+      <div class="header">
+        <h2 class="greeting">My Receipts</h2>
+      </div>
+      
+      <div class="search-bar">
+        <div class="search-icon">🔍</div>
+        <input type="text" class="search-input" placeholder="Search receipts">
+      </div>
+      
+      <div class="filter-chips">
+        <div class="chip active">All</div>
+        <div class="chip">Purchases</div>
+        <div class="chip">Returns</div>
+        <div class="chip">This Month</div>
+        <div class="chip">Last Month</div>
+      </div>
+      
+      <div class="card">
+        <div class="receipt-item" id="receiptDetailsButton">
+          <div class="receipt-left">
+            <div class="receipt-icon">🛒</div>
+            <div class="receipt-details">
+              <h4>Walmart</h4>
+              <p>May 10, 2025</p>
+            </div>
+          </div>
+          <div class="receipt-amount">$125.50</div>
+        </div>
+        
+        <div class="receipt-item">
+          <div class="receipt-left">
+            <div class="receipt-icon">🛒</div>
+            <div class="receipt-details">
+              <h4>Target</h4>
+              <p>May 8, 2025</p>
+            </div>
+          </div>
+          <div class="receipt-amount">$78.25</div>
+        </div>
+        
+        <div class="receipt-item">
+          <div class="receipt-left">
+            <div class="receipt-icon receipt-return">↩️</div>
+            <div class="receipt-details">
+              <h4>Best Buy</h4>
+              <p>May 5, 2025</p>
+            </div>
+          </div>
+          <div class="receipt-amount" style="color: #FF6B6B">-$45.99</div>
+        </div>
+        
+        <div class="receipt-item">
+          <div class="receipt-left">
+            <div class="receipt-icon">🛒</div>
+            <div class="receipt-details">
+              <h4>Apple Store</h4>
+              <p>May 1, 2025</p>
+            </div>
+          </div>
+          <div class="receipt-amount">$999.00</div>
+        </div>
+      </div>
+      
+      <div class="bottom-nav">
+        <div class="nav-item" id="navHomeButton2">
+          <div class="nav-icon">🏠</div>
+          <div>Home</div>
+        </div>
+        <div class="nav-item" id="navScanButton2">
+          <div class="nav-icon">📱</div>
+          <div>Scan</div>
+        </div>
+        <div class="nav-item active" id="navReceiptsButton2">
+          <div class="nav-icon">🧾</div>
+          <div>Receipts</div>
+        </div>
+        <div class="nav-item">
+          <div class="nav-icon">👤</div>
+          <div>Profile</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Sale Details Screen -->
+    <div class="screen" id="saleDetailsScreen">
+      <a href="#" class="back-link" id="saleDetailsBackButton">
+        <span class="back-icon">←</span> Back to Receipts
+      </a>
+      
+      <div class="merchant-logo">W</div>
+      <h2 class="merchant-name">Walmart</h2>
+      <div class="sale-date">May 10, 2025 • 2:30 PM</div>
+      
+      <div class="sale-status status-completed">Completed</div>
+      
+      <div class="divider"></div>
+      
+      <div class="section-title">Items</div>
+      
+      <div class="item-row">
+        <div class="item-name">Organic Bananas</div>
+        <div class="item-quantity">x2</div>
+        <div class="item-price">$3.98</div>
+      </div>
+      
+      <div class="item-row">
+        <div class="item-name">Milk, 1 Gallon</div>
+        <div class="item-quantity">x1</div>
+        <div class="item-price">$3.49</div>
+      </div>
+      
+      <div class="item-row">
+        <div class="item-name">Bread, Whole Wheat</div>
+        <div class="item-quantity">x1</div>
+        <div class="item-price">$2.99</div>
+      </div>
+      
+      <div class="item-row">
+        <div class="item-name">Chicken Breast, 2lbs</div>
+        <div class="item-quantity">x1</div>
+        <div class="item-price">$9.99</div>
+      </div>
+      
+      <div class="item-row">
+        <div class="item-name">Pasta, Spaghetti</div>
+        <div class="item-quantity">x2</div>
+        <div class="item-price">$2.98</div>
+      </div>
+      
+      <div class="divider"></div>
+      
+      <div class="item-row">
+        <div class="item-name">Subtotal</div>
+        <div class="item-price">$23.43</div>
+      </div>
+      
+      <div class="item-row">
+        <div class="item-name">Tax</div>
+        <div class="item-price">$2.07</div>
+      </div>
+      
+      <div class="total-row">
+        <div>Total</div>
+        <div>$25.50</div>
+      </div>
+      
+      <div class="divider"></div>
+      
+      <div class="section-title">Payment Method</div>
+      
+      <div class="payment-method">
+        <div class="payment-icon">💳</div>
+        <div class="payment-details">
+          <div class="payment-name">Receets Pay</div>
+          <div class="payment-info">Visa •••• 4242</div>
+        </div>
+        <div class="receipt-amount">$25.50</div>
+      </div>
+      
+      <button class="action-button">Request Return</button>
+    </div>
+  </div>
+  
+  <script>
+    // Add event listeners after DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get all screens
+      const loginScreen = document.getElementById('loginScreen');
+      const homeScreen = document.getElementById('homeScreen');
+      const scannerScreen = document.getElementById('scannerScreen');
+      const receiptsScreen = document.getElementById('receiptsScreen');
+      const saleDetailsScreen = document.getElementById('saleDetailsScreen');
+      
+      // Login button
+      document.getElementById('loginButton').addEventListener('click', function() {
+        loginScreen.classList.remove('active');
+        homeScreen.classList.add('active');
+      });
+      
+      // Navigation buttons
+      document.getElementById('navHomeButton').addEventListener('click', function() {
+        hideAllScreens();
+        homeScreen.classList.add('active');
+      });
+      
+      document.getElementById('navScanButton').addEventListener('click', function() {
+        hideAllScreens();
+        scannerScreen.classList.add('active');
+      });
+      
+      document.getElementById('navReceiptsButton').addEventListener('click', function() {
+        hideAllScreens();
+        receiptsScreen.classList.add('active');
+      });
+      
+      document.getElementById('navHomeButton2').addEventListener('click', function() {
+        hideAllScreens();
+        homeScreen.classList.add('active');
+      });
+      
+      document.getElementById('navScanButton2').addEventListener('click', function() {
+        hideAllScreens();
+        scannerScreen.classList.add('active');
+      });
+      
+      document.getElementById('navReceiptsButton2').addEventListener('click', function() {
+        hideAllScreens();
+        receiptsScreen.classList.add('active');
+      });
+      
+      // Scan card button
+      document.getElementById('scanCardButton').addEventListener('click', function() {
+        hideAllScreens();
+        scannerScreen.classList.add('active');
+      });
+      
+      // Scanner back button
+      document.getElementById('scannerBackButton').addEventListener('click', function() {
+        hideAllScreens();
+        homeScreen.classList.add('active');
+      });
+      
+      // View all receipts button
+      document.getElementById('viewAllReceiptsButton').addEventListener('click', function(e) {
+        e.preventDefault();
+        hideAllScreens();
+        receiptsScreen.classList.add('active');
+      });
+      
+      // Receipt item button
+      document.getElementById('receiptItemButton').addEventListener('click', function() {
+        hideAllScreens();
+        saleDetailsScreen.classList.add('active');
+      });
+      
+      // Receipt details button
+      document.getElementById('receiptDetailsButton').addEventListener('click', function() {
+        hideAllScreens();
+        saleDetailsScreen.classList.add('active');
+      });
+      
+      // Sale details back button
+      document.getElementById('saleDetailsBackButton').addEventListener('click', function(e) {
+        e.preventDefault();
+        hideAllScreens();
+        receiptsScreen.classList.add('active');
+      });
+      
+      // Helper function to hide all screens
+      function hideAllScreens() {
+        loginScreen.classList.remove('active');
+        homeScreen.classList.remove('active');
+        scannerScreen.classList.remove('active');
+        receiptsScreen.classList.remove('active');
+        saleDetailsScreen.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+</html>
